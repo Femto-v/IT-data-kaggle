@@ -1,20 +1,23 @@
-## About the Dataset
+# Enterprise IT Support & Ticket Analytics Dashboard
 
-This project utilizes an **IT Support Ticket Dataset** containing 29,651 helpdesk service requests across 10 distinct operational departments. The dataset captures raw incident text, assigned departments, urgency levels, and multi-label topic tags.
+## Executive Summary
+An end-to-end Power BI analytics solution engineered to monitor IT service desk performance, detect operational bottlenecks, and analyze customer incident text across 29,651 ticket records and 10 departments.
 
-### Data Schema & Attributes
+## Data Architecture & Modeling
+* **Star Schema Architecture:** Connected a fact table (`IT Support Ticket Data`) with a DAX-generated calendar table (`Dim_Date`) using a 1-to-Many relationship.
+* **ETL & Data Engineering:** Parsed stringified array fields, generated character length diagnostics, and engineered synthetic time attributes using Power Query M.
 
-| Field Name | Data Type | Description | Usage in Power BI Model |
-| :--- | :--- | :--- | :--- |
-| **`Body`** | String (Text) | Verbatim, free-form issue description reported by the user. | Source for text length diagnostics and detail table inspection. |
-| **`Department`** | Categorical String | Team assigned to resolve the request (e.g., *Technical Support, Billing & Payments*). | Primary category dimension for ticket volume breakdowns. |
-| **`Priority`** | Categorical (Ordinal) | Ticket urgency level (*Low, Medium, High*). | Used in DAX filters to compute escalation rates (`High Priority %`). |
-| **`Tags`** | List of Strings | Granular keywords and issue labels (e.g., `['Network', 'VPN', 'Disruption']`). | Explanatory dimension in the Decomposition Tree visual. |
+## Key DAX Measures
+* **Total Volume:** `Total Tickets = COUNT('IT Support Ticket Data'[Ticket ID])`
+* **High-Priority Escalation Rate:** `High Priority % = DIVIDE([High Priority Tickets], [Total Tickets], 0)`
+* **Incident Complexity Proxy:** `Avg Body Length = AVERAGE('IT Support Ticket Data'[Body Character Count])`
 
-### Feature Engineering & Data Transformations
+## Dashboard Features
+1. **Executive Incident Overview:** High-level KPI cards, monthly ticket trend analysis, and volume distribution by priority.
+2. **Category & Root-Cause Analysis:** Interactive Decomposition Tree visual breaking down ticket drivers by Department, Priority, and Tags.
+3. **Operational Deep-Dive:** Searchable detail view with word-wrapped description text and multi-attribute dropdown slicers.
 
-To transform raw Kaggle data into an enterprise Star Schema model, the following Power Query transformations were applied:
-* **Primary Key:** Created a unique `Ticket ID` text key mapped from original row indexes.
-* **Text Complexity Metric:** Calculated `Body Character Count` via `Text.Length([Body])` as a proxy measure for issue complexity.
-* **Date Dimension:** Generated a continuous 2025 calendar dataset (`Created Date`) linked to a DAX dynamic date table (`Dim_Date`).
-* **Tag Cleaning:** Stripped bracket and quote string artifacts to display clean multi-label tags for category drill-downs.
+## Dashboard Screenshots
+![Executive Overview](screenshots/page1.png)
+![Root Cause Analysis](screenshots/page2.png)
+![Ticket Deep-Dive](screenshots/page3.png)
