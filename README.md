@@ -18,6 +18,6 @@ An end-to-end Power BI analytics solution engineered to monitor IT service desk 
 3. **Operational Deep-Dive:** Searchable detail view with word-wrapped description text and multi-attribute dropdown slicers.
 
 ## Dashboard Screenshots
-![Executive Overview](screenshots/page1.png)
-![Root Cause Analysis](screenshots/page2.png)
-![Ticket Deep-Dive](screenshots/page3.png)
+![Executive Overview](screenshots/image1.png)
+![Root Cause Analysis](screenshots/image2.png)
+![Ticket Deep-Dive](screenshots/image3.png)
